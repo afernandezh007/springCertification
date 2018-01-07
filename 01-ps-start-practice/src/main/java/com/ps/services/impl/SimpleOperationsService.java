@@ -26,10 +26,19 @@ public class SimpleOperationsService implements OperationsService {
     public Response createResponse(Long sitterId, Long requestId) {
         // get sitter
         // TODO 1. retrieve sitter * request  (according to diagram 2.5)
+        User userSitter = userRepo.findById(sitterId);
+        Request request = requestRepo.findById(requestId);
 
         //create a response
         Response response = new Response();
         //TODO 2. populate & save the response object
+        response.setResponseStatus(ResponseStatus.PROPOSED);
+        response.setUser(userSitter);
+        response.setDetails("User proposed");
+        request.addResponse(response);
+
+        responseRepo.save(response);
+
         return response;
     }
 
